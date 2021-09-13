@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 		}
 		str_len+=read_len;
 	}
-
+	// 중요한점 : tcp는 데이터의 경계가 없다 -> server에서 데이터를 어떻게 보내든(한 번에 or 나눠서 ) 받는 쪽에서 맘대로 받을 수 있다 여기서 1개씩 나눠 받는것처럼
 	printf("Message from server: %s \n", message);
 	printf("Function read call count: %d \n", str_len);
 	close(sock);
