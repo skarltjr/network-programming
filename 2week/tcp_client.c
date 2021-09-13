@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 	if(connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr))==-1) 
 		error_handling("connect() error!");
 
-	while(read_len=read(sock, &message[idx++], 1))
+	while(read_len=read(sock, &message[idx++], 1)) // 여기선 한 글자씩 읽도록
 	{
 		if(read_len==-1)
 		{
