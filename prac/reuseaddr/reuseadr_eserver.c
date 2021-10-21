@@ -26,6 +26,11 @@ int main(int argc,char *argv[])
 	if(serv_sock==-1)
 	{error_handling("socket() error");}
 
+	optlen=sizeof(option);
+	option=TRUE;	
+	setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, &option, optlen);
+
+
 	memset(&serv_adr,0,sizeof(serv_adr));
 	serv_adr.sin_family=AF_INET;
 	serv_adr.sin_addr.s_addr=htonl(INADDR_ANY);
