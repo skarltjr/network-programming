@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-#include <time.h>
 
 #define BUF_SIZE 1024
 void error_handling(char *message);
@@ -15,10 +14,6 @@ int main(int argc, char *argv[])
 	char message[BUF_SIZE];
 	int str_len;
 	struct sockaddr_in serv_adr;
-	char *str_ptr;
-	time_t ct;
-	struct tm tm;
-
 
 	if(argc!=3) {
 		printf("Usage : %s <IP> <port>\n", argv[0]);
@@ -39,22 +34,19 @@ int main(int argc, char *argv[])
 	else
 		puts("Connected...........");
 	
-	while(1) 
+	while(1)
 	{
+		fputs("Input message(Q to quit): ", stdout);
+		fgets(message, BUF_SIZE, stdin);
+		
+		if(!strcmp(message,"q\n") || !strcmp(message,"Q\n"))
+			break;
 
-		while((str_len=read(sock, message, BUF_SIZE-1))!=0)
-		{
-			ct=time(NULL);
-			//message[str_len]=0;
-			str_ptr = inet_ntoa(serv_adr.sin_addr);
-			printf("%s ",str_ptr);
-			printf("message : %s",message);
-			tm = *localtime(&ct);
-			printf(" %d-%d-%d %d:%d:%d\n",tm.tm_year+1900,tm.tm_mon+1,tm.tm_mday,tm.tm_hour,tm.tm_min,tm.tm_sec);
-		}
+		write(sock, message, strlen(message));
+		printf("clear");
+		message[0]='\n';
+		close(sock);
 	}
-	
-	close(sock);
 	return 0;
 }
 
